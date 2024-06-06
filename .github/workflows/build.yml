@@ -25,6 +25,14 @@ jobs:
         with:
           lfs: true
           submodules: true
+      - name: Install compilers
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install \
+            gcc-x86-64-linux-gnu \
+            g++-x86-64-linux-gnu \
+            gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:

@@ -32,6 +32,7 @@ tasks.register<Exec>("buildNativeProjectLinuxArm64") {
     commandLine = listOf("make", "-j${makeWorkers}")
 
     val nativeProjectDir = File("$rootDir/PhysX/physx/compiler/jni-linux-aarch64")
+    
     if (!nativeProjectDir.exists()) {
         dependsOn(":generateNativeProject")
     }

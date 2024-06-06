@@ -35,6 +35,7 @@ tasks.register<Exec>("buildNativeProjectLinux") {
     commandLine = listOf("make", "-j${makeWorkers}")
 
     val nativeProjectDir = File("$rootDir/PhysX/physx/compiler/jni-linux-${BuildSettings.buildType}")
+    
     if (!nativeProjectDir.exists()) {
         dependsOn(":generateNativeProject")
     }
@@ -62,6 +63,7 @@ tasks.register<Exec>("buildNativeProjectLinux") {
             include("*.so")
             into(resourcesCudaDir)
         }
+
         Sha1Helper.writeHashes(File(resourcesDir))
         Sha1Helper.writeHashes(File(resourcesCudaDir))
     }

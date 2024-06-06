@@ -55,6 +55,8 @@ jobs:
             physx-jni/build/libs/*.jar
             physx-jni-natives-linux/build/libs/*.jar
             physx-jni-natives-linux-cuda/build/libs/*.jar
+            physx-jni-natives-linux-arm64/build/libs/*.jar
+            physx-jni-natives-linux-cuda-arm64/build/libs/*.jar
           compression-level: 0
 
   build_windows:

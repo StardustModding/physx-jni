@@ -22,7 +22,10 @@ tasks.register("generateNativeProject") {
     val os = OperatingSystem.current()
     when {
         os.isWindows -> dependsOn(":physx-jni-natives-windows:generateNativeProjectWindows")
-        os.isLinux -> dependsOn(":physx-jni-natives-linux:generateNativeProjectLinux")
+        os.isLinux -> {
+            dependsOn(":physx-jni-natives-linux:generateNativeProjectLinux")
+            dependsOn(":physx-jni-natives-linux-arm64:generateNativeProjectLinuxArm64")
+        }
         os.isMacOsX -> {
             dependsOn(":physx-jni-natives-macos:generateNativeProjectMacos")
             dependsOn(":physx-jni-natives-macos-arm64:generateNativeProjectMacosArm64")
@@ -51,7 +54,10 @@ tasks.register("buildNativeProject") {
     val os = OperatingSystem.current()
     when {
         os.isWindows -> dependsOn(":physx-jni-natives-windows:buildNativeProjectWindows")
-        os.isLinux -> dependsOn(":physx-jni-natives-linux:buildNativeProjectLinux")
+        os.isLinux -> {
+            dependsOn(":physx-jni-natives-linux:buildNativeProjectLinux")
+            dependsOn(":physx-jni-natives-linux-arm64:buildNativeProjectLinuxArm64")
+        }
         os.isMacOsX -> {
             dependsOn(":physx-jni-natives-macos:buildNativeProjectMacos")
             dependsOn(":physx-jni-natives-macos-arm64:buildNativeProjectMacosArm64")
@@ -66,7 +72,9 @@ tasks.register("deleteNativeLibs") {
 
     doLast {
         delete("$projectDir/physx-jni-natives-linux/src/main/resources")
+        delete("$projectDir/physx-jni-natives-linux-arm64/src/main/resources")
         delete("$projectDir/physx-jni-natives-linux-cuda/src/main/resources")
+        delete("$projectDir/physx-jni-natives-linux-cuda-arm64/src/main/resources")
         delete("$projectDir/physx-jni-natives-macos/src/main/resources")
         delete("$projectDir/physx-jni-natives-macos-arm64/src/main/resources")
         delete("$projectDir/physx-jni-natives-windows/src/main/resources")

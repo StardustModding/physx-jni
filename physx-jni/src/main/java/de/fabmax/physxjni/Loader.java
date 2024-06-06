@@ -16,6 +16,7 @@ public class Loader {
             try {
                 switch (platform) {
                     case LINUX:
+                    case LINUX_ARM64:
                         PlatformChecks.setPlatformBit(PlatformChecks.PLATFORM_LINUX);
                         break;
                     case WINDOWS:

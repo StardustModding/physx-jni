@@ -3,6 +3,7 @@ package de.fabmax.physxjni;
 public enum Platform {
 
     LINUX("de.fabmax.physxjni.linux.NativeLibLinux"),
+    LINUX_ARM64("de.fabmax.physxjni.linuxarm64.NativeLibLinuxArm64"),
     WINDOWS("de.fabmax.physxjni.windows.NativeLibWindows"),
     MACOS("de.fabmax.physxjni.macos.NativeLibMacos"),
     MACOS_ARM64("de.fabmax.physxjni.macosarm.NativeLibMacosArm64"),;
@@ -28,7 +29,11 @@ public enum Platform {
         } else if (osName.contains("windows")) {
             return WINDOWS;
         } else if (osName.contains("linux")) {
-            return LINUX;
+            if ("aarch64".equals(arch)) {
+                return LINUX_ARM64;
+            } else {
+                return LINUX;
+            }
         } else if (osName.contains("mac os x") || osName.contains("darwin") || osName.contains("osx")) {
             if ("aarch64".equals(arch)) {
                 return MACOS_ARM64;

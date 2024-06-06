@@ -36,8 +36,8 @@ tasks.register<Exec>("buildNativeProjectLinuxArm64") {
         dependsOn(":generateNativeProject")
     }
 
-    val resourcesDir = "${rootDir}/physx-jni-natives-linux-arm64/src/main/resources/de/fabmax/physxjni/linuxarm64/"
-    val resourcesCudaDir = "${rootDir}/physx-jni-natives-linux-cuda-arm64/src/main/resources/de/fabmax/physxjni/linuxarm64/"
+    val resourcesDir = "${rootDir}/physx-jni-natives-linux-arm64/src/main/resources/de/fabmax/physxjni/linuxarm/"
+    val resourcesCudaDir = "${rootDir}/physx-jni-natives-linux-cuda-arm64/src/main/resources/de/fabmax/physxjni/linuxarm/"
 
     doFirst {
         delete(resourcesDir)

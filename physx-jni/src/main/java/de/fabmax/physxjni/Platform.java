@@ -3,7 +3,7 @@ package de.fabmax.physxjni;
 public enum Platform {
 
     LINUX("de.fabmax.physxjni.linux.NativeLibLinux"),
-    LINUX_ARM64("de.fabmax.physxjni.linuxarm64.NativeLibLinuxArm64"),
+    LINUX_ARM64("de.fabmax.physxjni.linuxarm.NativeLibLinuxArm64"),
     WINDOWS("de.fabmax.physxjni.windows.NativeLibWindows"),
     MACOS("de.fabmax.physxjni.macos.NativeLibMacos"),
     MACOS_ARM64("de.fabmax.physxjni.macosarm.NativeLibMacosArm64"),;

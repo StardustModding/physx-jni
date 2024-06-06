@@ -1,4 +1,4 @@
-package de.fabmax.physxjni.linuxarm64;
+package de.fabmax.physxjni.linuxarm;
 
 import de.fabmax.physxjni.NativeLib;
 

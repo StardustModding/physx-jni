@@ -33,6 +33,8 @@ tasks.register<VersionNameUpdate>("updateVersionNames") {
         "${rootDir}/physx-jni-natives-windows-cuda/src/main/java/de/fabmax/physxjni/windows/NativeLibWindows.java",
         "${rootDir}/physx-jni-natives-linux/src/main/java/de/fabmax/physxjni/linux/NativeLibLinux.java",
         "${rootDir}/physx-jni-natives-linux-cuda/src/main/java/de/fabmax/physxjni/linux/NativeLibLinux.java",
+        "${rootDir}/physx-jni-natives-linux-arm64/src/main/java/de/fabmax/physxjni/linuxarm/NativeLibLinuxArm64.java",
+        "${rootDir}/physx-jni-natives-linux-cuda-arm64/src/main/java/de/fabmax/physxjni/linuxarm/NativeLibLinuxArm64.java",
         "${rootDir}/physx-jni-natives-macos/src/main/java/de/fabmax/physxjni/macos/NativeLibMacos.java",
         "${rootDir}/physx-jni-natives-macos-arm64/src/main/java/de/fabmax/physxjni/macosarm/NativeLibMacosArm64.java"
     )
@@ -66,17 +68,25 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
+    val arch = System.getProperty("os.arch", "unknown")
+
     testRuntimeOnly(project(":physx-jni-natives-windows-cuda"))
-    testRuntimeOnly(project(":physx-jni-natives-linux-cuda"))
+    
+    if (arch == "aarch64") {
+        testRuntimeOnly(project(":physx-jni-natives-linux-arm64"))
+    } else {
+        testRuntimeOnly(project(":physx-jni-natives-linux-cuda"))
+    }
+
     testRuntimeOnly(project(":physx-jni-natives-macos"))
     testRuntimeOnly(project(":physx-jni-natives-macos-arm64"))
 
     testImplementation("org.lwjgl:lwjgl:3.3.3")
 
     val os = org.gradle.internal.os.OperatingSystem.current()
-    val arch = System.getProperty("os.arch", "unknown")
     val lwjglNatives = when {
-        os.isLinux -> "natives-linux"
+        os.isLinux && arch == "aarch64" -> "natives-linux-arm64"
+        os.isLinux && arch != "aarch64" -> "natives-linux"
         os.isMacOsX && arch == "aarch64" -> "natives-macos-arm64"
         os.isMacOsX && arch != "aarch64" -> "natives-macos"
         else -> "natives-windows"
@@ -100,6 +110,11 @@ publishing {
             artifact(project(":physx-jni-natives-linux").tasks["jar"]).apply {
                 classifier = "natives-linux"
             }
+
+            artifact(project(":physx-jni-natives-linux-arm64").tasks["jar"]).apply {
+                classifier = "natives-linux-arm64"
+            }
+
             // cuda natives are currently not published to maven central because of their excessive size
             //artifact(project(":physx-jni-natives-linux-cuda").tasks["jar"]).apply {
             //    classifier = "natives-linux-cuda"
@@ -140,13 +155,23 @@ publishing {
     }
 
     repositories {
+        // maven {
+        //     name = "ossrh"
+        //     url = if (version.toString().endsWith("-SNAPSHOT")) {
+        //         uri("https://oss.sonatype.org/content/repositories/snapshots")
+        //     } else {
+        //         uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+        //     }
+        //     credentials {
+        //         username = System.getenv("MAVEN_USERNAME")
+        //         password = System.getenv("MAVEN_PASSWORD")
+        //     }
+        // }
+
         maven {
-            name = "ossrh"
-            url = if (version.toString().endsWith("-SNAPSHOT")) {
-                uri("https://oss.sonatype.org/content/repositories/snapshots")
-            } else {
-                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-            }
+            name = "StardustModding"
+            url = uri("https://maven.stardustmodding.org/releases")
+
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
@@ -154,11 +179,11 @@ publishing {
         }
     }
 
-    signing {
-        val privateKey = System.getenv("GPG_PRIVATE_KEY")
-        val password = System.getenv("GPG_PASSWORD")
-        useInMemoryPgpKeys(privateKey, password)
+    // signing {
+    //     val privateKey = System.getenv("GPG_PRIVATE_KEY")
+    //     val password = System.getenv("GPG_PASSWORD")
+    //     useInMemoryPgpKeys(privateKey, password)
 
-        sign(publications["mavenJava"])
-    }
+    //     sign(publications["mavenJava"])
+    // }
 }

@@ -118,13 +118,23 @@ publishing {
     }
 
     repositories {
+        // maven {
+        //     name = "ossrh"
+        //     url = if (version.toString().endsWith("-SNAPSHOT")) {
+        //         uri("https://oss.sonatype.org/content/repositories/snapshots")
+        //     } else {
+        //         uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+        //     }
+        //     credentials {
+        //         username = System.getenv("MAVEN_USERNAME")
+        //         password = System.getenv("MAVEN_PASSWORD")
+        //     }
+        // }
+
         maven {
-            name = "ossrh"
-            url = if (version.toString().endsWith("-SNAPSHOT")) {
-                uri("https://oss.sonatype.org/content/repositories/snapshots")
-            } else {
-                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-            }
+            name = "StardustModding"
+            url = uri("https://maven.stardustmodding.org/releases")
+
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
@@ -132,11 +142,11 @@ publishing {
         }
     }
 
-    signing {
-        val privateKey = System.getenv("GPG_PRIVATE_KEY")
-        val password = System.getenv("GPG_PASSWORD")
-        useInMemoryPgpKeys(privateKey, password)
+    // signing {
+    //     val privateKey = System.getenv("GPG_PRIVATE_KEY")
+    //     val password = System.getenv("GPG_PASSWORD")
+    //     useInMemoryPgpKeys(privateKey, password)
 
-        sign(publications["release"])
-    }
+    //     sign(publications["release"])
+    // }
 }

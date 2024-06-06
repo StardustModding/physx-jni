@@ -1,7 +1,7 @@
-module de.fabmax.physxjni.linuxarm64 {
+module de.fabmax.physxjni.linuxarm {
     requires de.fabmax.physxjni;
 
-    exports de.fabmax.physxjni.linuxarm64;
+    exports de.fabmax.physxjni.linuxarm;
 
-    opens de.fabmax.physxjni.linuxarm64 to de.fabmax.physxjni;
+    opens de.fabmax.physxjni.linuxarm to de.fabmax.physxjni;
 }

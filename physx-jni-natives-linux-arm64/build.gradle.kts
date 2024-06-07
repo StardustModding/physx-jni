@@ -19,7 +19,10 @@ tasks.register<Exec>("generateNativeProjectLinuxArm64") {
     commandLine = listOf("$rootDir/PhysX/physx/generate_projects.sh", "jni-linux-aarch64")
 
     doFirst {
-        delete("$rootDir/PhysX/physx/compiler/jni-linux-aarch64")
+        delete("$rootDir/PhysX/physx/compiler/jni-linux-aarch64-checked")
+        delete("$rootDir/PhysX/physx/compiler/jni-linux-aarch64-debug")
+        delete("$rootDir/PhysX/physx/compiler/jni-linux-aarch64-profile")
+        delete("$rootDir/PhysX/physx/compiler/jni-linux-aarch64-release")
     }
 }
 
@@ -28,10 +31,10 @@ tasks.register<Exec>("buildNativeProjectLinuxArm64") {
     val makeWorkers = min(32, Runtime.getRuntime().availableProcessors())
 
     group = "native build"
-    workingDir = File("$rootDir/PhysX/physx/compiler/jni-linux-aarch64/")
+    workingDir = File("$rootDir/PhysX/physx/compiler/jni-linux-aarch64-${BuildSettings.buildType}/")
     commandLine = listOf("make", "-j${makeWorkers}")
 
-    val nativeProjectDir = File("$rootDir/PhysX/physx/compiler/jni-linux-aarch64")
+    val nativeProjectDir = File("$rootDir/PhysX/physx/compiler/jni-linux-aarch64-${BuildSettings.buildType}")
     
     if (!nativeProjectDir.exists()) {
         dependsOn(":generateNativeProject")
@@ -60,7 +63,7 @@ tasks.register<Exec>("buildNativeProjectLinuxArm64") {
             include("*.so")
             into(resourcesCudaDir)
         }
-        
+
         Sha1Helper.writeHashes(File(resourcesDir))
         Sha1Helper.writeHashes(File(resourcesCudaDir))
     }

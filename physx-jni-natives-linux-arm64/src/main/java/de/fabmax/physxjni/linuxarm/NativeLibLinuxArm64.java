@@ -10,7 +10,7 @@ public class NativeLibLinuxArm64 extends NativeLib {
     private static final String version = "2.5.0";
 
     private static final List<String> libraries = new ArrayList<>() {{
-        add("libPhysXJniBindings.so");
+        add("libPhysXJniBindings_64.so");
     }};
 
     @Override

@@ -108,7 +108,7 @@ publishing {
             //}
 
             artifact(project(":physx-jni-natives-linux").tasks["jar"]).apply {
-                classifier = "natives-linux"
+                classifier = "natives-linux-x86_64"
             }
 
             artifact(project(":physx-jni-natives-linux-arm64").tasks["jar"]).apply {
@@ -121,7 +121,7 @@ publishing {
             //}
 
             artifact(project(":physx-jni-natives-macos").tasks["jar"]).apply {
-                classifier = "natives-macos"
+                classifier = "natives-macos-x86_64"
             }
             artifact(project(":physx-jni-natives-macos-arm64").tasks["jar"]).apply {
                 classifier = "natives-macos-arm64"
